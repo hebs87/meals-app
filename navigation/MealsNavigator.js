@@ -8,36 +8,38 @@ import {Platform} from "react-native";
 import {CATEGORIES} from "../data/dummy-data";
 
 
-const MealsNavigator = createStackNavigator({
-  Categories: {
-    screen: CategoriesScreen,
-    navigationOptions: () => ({
-      headerTitle: 'Meal Categories',
+const MealsNavigator = createStackNavigator(
+  {
+    Categories: {
+      screen: CategoriesScreen,
+      navigationOptions: () => ({
+        headerTitle: 'Meal Categories',
+      }),
+    },
+    CategoryMeals: {
+      screen: CategoryMealScreen,
+      navigationOptions: navData => {
+        const catId = navData.navigation.getParam('categoryId');
+        const selectedCat = CATEGORIES.find(cat => cat.id === catId);
+        return {
+          headerTitle: selectedCat.title,
+        }
+      },
+    },
+    MealDetails: {
+      screen: MealDetailsScreen,
+    },
+  },
+  {
+    defaultNavigationOptions: {
+      headerTitle: 'Meals App',
       headerStyle: {
         backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : '',
       },
       headerTintColor: Platform.OS === 'android' ? Colors.white : Colors.primaryColor,
       headerTitleAlign: Platform.OS === 'android' ? 'center' : '',
-    }),
-  },
-  CategoryMeals: {
-    screen: CategoryMealScreen,
-    navigationOptions: navData => {
-      const catId = navData.navigation.getParam('categoryId');
-      const selectedCat = CATEGORIES.find(cat => cat.id === catId);
-      return {
-        headerTitle: selectedCat.title,
-        headerStyle: {
-          backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : '',
-        },
-        headerTintColor: Platform.OS === 'android' ? Colors.white : Colors.primaryColor,
-        headerTitleAlign: Platform.OS === 'android' ? 'center' : '',
-      }
     },
-  },
-  MealDetails: {
-    screen: MealDetailsScreen,
-  },
-});
+  }
+);
 
 export default createAppContainer(MealsNavigator);
