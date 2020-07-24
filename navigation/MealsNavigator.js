@@ -5,6 +5,7 @@ import CategoryMealScreen from "../screens/CategoryMealScreen/CategoryMealScreen
 import MealDetailsScreen from "../screens/MealDetailsScreen/MealDetailsScreen";
 import Colors from "../theme/Colors";
 import {Platform} from "react-native";
+import {CATEGORIES} from "../data/dummy-data";
 
 
 const MealsNavigator = createStackNavigator({
@@ -21,6 +22,18 @@ const MealsNavigator = createStackNavigator({
   },
   CategoryMeals: {
     screen: CategoryMealScreen,
+    navigationOptions: navData => {
+      const catId = navData.navigation.getParam('categoryId');
+      const selectedCat = CATEGORIES.find(cat => cat.id === catId);
+      return {
+        headerTitle: selectedCat.title,
+        headerStyle: {
+          backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : '',
+        },
+        headerTintColor: Platform.OS === 'android' ? Colors.white : Colors.primaryColor,
+        headerTitleAlign: Platform.OS === 'android' ? 'center' : '',
+      }
+    },
   },
   MealDetails: {
     screen: MealDetailsScreen,
