@@ -5,7 +5,7 @@ import CategoryMealScreen from "../screens/CategoryMealScreen/CategoryMealScreen
 import MealDetailsScreen from "../screens/MealDetailsScreen/MealDetailsScreen";
 import Colors from "../theme/Colors";
 import {Platform} from "react-native";
-import {CATEGORIES} from "../data/dummy-data";
+import {CATEGORIES, MEALS} from "../data/dummy-data";
 
 
 const MealsNavigator = createStackNavigator(
@@ -28,6 +28,13 @@ const MealsNavigator = createStackNavigator(
     },
     MealDetails: {
       screen: MealDetailsScreen,
+      navigationOptions: navData => {
+        const mealId = navData.navigation.getParam('mealId');
+        const selectedMeal = MEALS.find(meal => meal.id === mealId);
+        return {
+          headerTitle: selectedMeal.title,
+        }
+      },
     },
   },
   {
