@@ -193,11 +193,30 @@ const MainNavigator = createDrawerNavigator(
   {
     MealsFavs: {
       screen: MealsTabNavigator,
+      navigationOptions: () => ({
+        drawerLabel: 'Meals',
+      }),
     },
     Filter: {
       screen: FiltersNavigator,
     },
   },
+  {
+    drawerBackgroundColor: Colors.primaryColor,
+    contentOptions: {
+      inactiveTintColor: Colors.white,
+      activeTintColor: Colors.white,
+      activeBackgroundColor: Colors.accentColor,
+      labelStyle: {
+        fontFamily: 'OpenSansBold',
+      },
+      itemStyle: {
+        width: '100%',
+        justifyContent: 'center',
+      },
+    },
+    overlayColor: Colors.opaque,
+  }
 );
 
 export default createAppContainer(MainNavigator);
