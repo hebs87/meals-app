@@ -1,6 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, FlatList} from 'react-native';
-import MealItem from "../../components/MealItem/MealItem";
+import MealsList from "../../components/MealsList/MealsList";
 import {MEALS} from "../../data/dummy-data";
 
 const CategoryMealScreen = props => {
@@ -10,45 +9,12 @@ const CategoryMealScreen = props => {
     meal => meal.categoryIds.indexOf(catId) >= 0
   );
 
-  const renderMealItem = itemData => {
-    return (
-      <MealItem
-        title={itemData.item.title}
-        duration={itemData.item.duration}
-        complexity={itemData.item.complexity}
-        affordability={itemData.item.affordability}
-        image={itemData.item.imageUrl}
-        onSelectMeal={() => props.navigation.navigate(
-          'MealDetails',
-          {
-            mealId: itemData.item.id,
-          }
-        )}
-      />
-    );
-  };
-
   return (
-    <View style={styles.screen}>
-      <FlatList
-        style={styles.mealsList}
-        keyExtractor={(item, index) => item.id}
-        data={displayedMeals}
-        renderItem={renderMealItem}
-      />
-    </View>
+    <MealsList
+      listData={displayedMeals}
+      navigation={props.navigation}
+    />
   );
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  mealsList: {
-    width: '100%',
-  }
-});
 
 export default CategoryMealScreen;
