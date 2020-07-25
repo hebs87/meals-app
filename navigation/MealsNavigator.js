@@ -3,10 +3,12 @@ import {createAppContainer} from "react-navigation";
 import {createStackNavigator} from "react-navigation-stack";
 import {createBottomTabNavigator} from "react-navigation-tabs";
 import {createMaterialBottomTabNavigator} from "react-navigation-material-bottom-tabs";
+import {createDrawerNavigator} from "react-navigation-drawer";
 import CategoriesScreen from "../screens/CategoriesScreen/CategoriesScreen";
 import CategoryMealScreen from "../screens/CategoryMealScreen/CategoryMealScreen";
 import MealDetailsScreen from "../screens/MealDetailsScreen/MealDetailsScreen";
 import FavouritesScreen from "../screens/FavouritesScreen/FavouritesScreen";
+import FiltersScreen from "../screens/FiltersScreen/FiltersScreen";
 import Colors from "../theme/Colors";
 import {Platform} from "react-native";
 import {CATEGORIES, MEALS} from "../data/dummy-data";
@@ -23,7 +25,7 @@ const stackNavConfig =   {
     headerTintColor: Platform.OS === 'android' ? Colors.white : Colors.primaryColor,
     headerTitleAlign: Platform.OS === 'android' ? 'center' : '',
   },
-}
+};
 
 const MealsNavigator = createStackNavigator(
   {
@@ -99,7 +101,19 @@ const FavNavigator = createStackNavigator(
     },
   },
   stackNavConfig
-)
+);
+
+const FiltersNavigator = createStackNavigator(
+  {
+    Filters: {
+      screen: FiltersScreen,
+      navigationOptions: () => ({
+        headerTitle: 'Filter Meals',
+      }),
+    },
+  },
+  stackNavConfig
+);
 
 // First object that is passed into both TabNavigators
 const tabsScreenConfig = {
@@ -124,7 +138,7 @@ const tabsScreenConfig = {
       tabBarColor: Colors.accentColor,
     },
   },
-}
+};
 
 const MealsTabNavigator = Platform.OS === 'android' ? (
   createMaterialBottomTabNavigator(
