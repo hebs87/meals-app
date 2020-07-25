@@ -160,7 +160,7 @@ const tabsScreenConfig = {
       // Specific to Android createMaterialBottomTabNavigator when shifting set to true
       tabBarColor: Colors.primaryColor,
       // Android specific - workaround for setting font styles on tab labels
-      tabBarLabel: Platform.OS === 'android' ? <Text style={{fontFamily: 'OpenSansBold'}}>Favourites</Text> : 'Meals',
+      tabBarLabel: Platform.OS === 'android' ? <Text style={{fontFamily: 'OpenSansBold'}}>Meals</Text> : 'Meals',
     },
   },
   Favourites: {
