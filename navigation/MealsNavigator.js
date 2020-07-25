@@ -14,6 +14,17 @@ import {HeaderButtons, Item} from "react-navigation-header-buttons";
 import CustomHeaderButton from "../components/HeaderButton/HeaderButton";
 import {Ionicons} from "@expo/vector-icons";
 
+const stackNavConfig =   {
+  defaultNavigationOptions: {
+    headerTitle: 'Meals App',
+    headerStyle: {
+      backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : '',
+    },
+    headerTintColor: Platform.OS === 'android' ? Colors.white : Colors.primaryColor,
+    headerTitleAlign: Platform.OS === 'android' ? 'center' : '',
+  },
+}
+
 const MealsNavigator = createStackNavigator(
   {
     Categories: {
@@ -54,17 +65,41 @@ const MealsNavigator = createStackNavigator(
       },
     },
   },
-  {
-    defaultNavigationOptions: {
-      headerTitle: 'Meals App',
-      headerStyle: {
-        backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : '',
-      },
-      headerTintColor: Platform.OS === 'android' ? Colors.white : Colors.primaryColor,
-      headerTitleAlign: Platform.OS === 'android' ? 'center' : '',
-    },
-  }
+  stackNavConfig
 );
+
+const FavNavigator = createStackNavigator(
+  {
+    Favourites: {
+      screen: FavouritesScreen,
+      navigationOptions: () => ({
+        headerTitle: 'Your Favourites',
+      }),
+    },
+    MealDetails: {
+      screen: MealDetailsScreen,
+      navigationOptions: navData => {
+        const mealId = navData.navigation.getParam('mealId');
+        const selectedMeal = MEALS.find(meal => meal.id === mealId);
+        return {
+          headerTitle: selectedMeal.title,
+          headerRight: () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+              <Item
+                title='Favourite'
+                iconName='ios-star'
+                onPress={() => {
+                  console.log('Mark as favourite');
+                }}
+              />
+            </HeaderButtons>
+          ),
+        }
+      },
+    },
+  },
+  stackNavConfig
+)
 
 // First object that is passed into both TabNavigators
 const tabsScreenConfig = {
@@ -79,7 +114,7 @@ const tabsScreenConfig = {
     },
   },
   Favourites: {
-    screen: FavouritesScreen,
+    screen: FavNavigator,
     navigationOptions: {
       tabBarLabel: 'Favourites!',
       tabBarIcon: tabInfo => {
