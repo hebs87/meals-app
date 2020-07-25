@@ -31,9 +31,23 @@ const MealsNavigator = createStackNavigator(
   {
     Categories: {
       screen: CategoriesScreen,
-      navigationOptions: () => ({
-        headerTitle: 'Meal Categories',
-      }),
+      navigationOptions: navData => {
+        return {
+          headerTitle: 'Meal Categories',
+          // For navigation drawer
+          headerLeft: () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+              <Item
+                title='Menu'
+                iconName='ios-menu'
+                onPress={() => {
+                  navData.navigation.toggleDrawer();
+                }}
+              />
+            </HeaderButtons>
+          ),
+        }
+      },
     },
     CategoryMeals: {
       screen: CategoryMealScreen,
@@ -74,9 +88,23 @@ const FavNavigator = createStackNavigator(
   {
     Favourites: {
       screen: FavouritesScreen,
-      navigationOptions: () => ({
-        headerTitle: 'Your Favourites',
-      }),
+      navigationOptions: navData => {
+        return {
+          headerTitle: 'Your Favourites',
+          // For navigation drawer
+          headerLeft: () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+              <Item
+                title='Menu'
+                iconName='ios-menu'
+                onPress={() => {
+                  navData.navigation.toggleDrawer();
+                }}
+              />
+            </HeaderButtons>
+          ),
+        }
+      },
     },
     MealDetails: {
       screen: MealDetailsScreen,
@@ -107,9 +135,23 @@ const FiltersNavigator = createStackNavigator(
   {
     Filters: {
       screen: FiltersScreen,
-      navigationOptions: () => ({
-        headerTitle: 'Filter Meals',
-      }),
+      navigationOptions: navData => {
+        return {
+          headerTitle: 'Filter Meals',
+          // For navigation drawer
+          headerLeft: () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+              <Item
+                title='Menu'
+                iconName='ios-menu'
+                onPress={() => {
+                  navData.navigation.toggleDrawer();
+                }}
+              />
+            </HeaderButtons>
+          ),
+        }
+      },
     },
   },
   stackNavConfig
@@ -163,4 +205,15 @@ const MealsTabNavigator = Platform.OS === 'android' ? (
   )
 );
 
-export default createAppContainer(MealsTabNavigator);
+const MainNavigator = createDrawerNavigator(
+  {
+    MealsFavs: {
+      screen: MealsTabNavigator,
+    },
+    Filter: {
+      screen: FiltersNavigator,
+    },
+  },
+);
+
+export default createAppContainer(MainNavigator);
