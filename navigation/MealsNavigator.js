@@ -2,6 +2,7 @@ import React from 'react';
 import {createAppContainer} from "react-navigation";
 import {createStackNavigator} from "react-navigation-stack";
 import {createBottomTabNavigator} from "react-navigation-tabs";
+import {createMaterialBottomTabNavigator} from "react-navigation-material-bottom-tabs";
 import CategoriesScreen from "../screens/CategoriesScreen/CategoriesScreen";
 import CategoryMealScreen from "../screens/CategoryMealScreen/CategoryMealScreen";
 import MealDetailsScreen from "../screens/MealDetailsScreen/MealDetailsScreen";
@@ -65,31 +66,52 @@ const MealsNavigator = createStackNavigator(
   }
 );
 
-const MealsTabNavigator = createBottomTabNavigator(
-  {
-    Meals: {
-      screen: MealsNavigator,
-      navigationOptions: {
-        tabBarIcon: tabInfo => {
-          return <Ionicons name='ios-restaurant' size={25} color={tabInfo.tintColor}/>
-        },
+// First object that is passed into both TabNavigators
+const tabsScreenConfig = {
+  Meals: {
+    screen: MealsNavigator,
+    navigationOptions: {
+      tabBarIcon: tabInfo => {
+        return <Ionicons name='ios-restaurant' size={25} color={tabInfo.tintColor}/>
       },
-    },
-    Favourites: {
-      screen: FavouritesScreen,
-      navigationOptions: {
-        tabBarLabel: 'Favourites!',
-        tabBarIcon: tabInfo => {
-          return <Ionicons name='ios-star' size={25} color={tabInfo.tintColor}/>
-        },
-      },
+      // Specific to Android createMaterialBottomTabNavigator when shifting set to true
+      tabBarColor: Colors.primaryColor,
     },
   },
-  {
-    tabBarOptions: {
-      activeTintColor: Colors.accentColor,
+  Favourites: {
+    screen: FavouritesScreen,
+    navigationOptions: {
+      tabBarLabel: 'Favourites!',
+      tabBarIcon: tabInfo => {
+        return <Ionicons name='ios-star' size={25} color={tabInfo.tintColor}/>
+      },
+      // Specific to Android createMaterialBottomTabNavigator when shifting set to true
+      tabBarColor: Colors.accentColor,
     },
-  }
+  },
+}
+
+const MealsTabNavigator = Platform.OS === 'android' ? (
+  createMaterialBottomTabNavigator(
+    tabsScreenConfig,
+    {
+      activeColor: Colors.white,
+      shifting: true,
+      // Set the whole tab bar colour if shifting set to false
+      // barStyle: {
+      //   backgroundColor: Colors.primaryColor,
+      // },
+    }
+  )
+) : (
+  createBottomTabNavigator(
+    tabsScreenConfig,
+    {
+      tabBarOptions: {
+        activeTintColor: Colors.accentColor,
+      },
+    }
+  )
 );
 
 export default createAppContainer(MealsTabNavigator);
