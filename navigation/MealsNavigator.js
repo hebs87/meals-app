@@ -39,6 +39,18 @@ const renderMenuButton = navData => (
   </HeaderButtons>
 );
 
+const renderFavouritesButton = navData => (
+  <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+    <Item
+      title='Favourite'
+      iconName='ios-star'
+      onPress={() => {
+        console.log('Mark as favourite');
+      }}
+    />
+  </HeaderButtons>
+);
+
 const MealsNavigator = createStackNavigator(
   {
     Categories: {
@@ -70,16 +82,8 @@ const MealsNavigator = createStackNavigator(
         const selectedMeal = MEALS.find(meal => meal.id === mealId);
         return {
           headerTitle: selectedMeal.title,
-          headerRight: () => (
-            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-              <Item
-                title='Favourite'
-                iconName='ios-star'
-                onPress={() => {
-                  console.log('Mark as favourite');
-                }}
-              />
-            </HeaderButtons>
+          headerRight: navData => (
+            renderFavouritesButton(navData)
           ),
         }
       },
@@ -109,16 +113,8 @@ const FavNavigator = createStackNavigator(
         const selectedMeal = MEALS.find(meal => meal.id === mealId);
         return {
           headerTitle: selectedMeal.title,
-          headerRight: () => (
-            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-              <Item
-                title='Favourite'
-                iconName='ios-star'
-                onPress={() => {
-                  console.log('Mark as favourite');
-                }}
-              />
-            </HeaderButtons>
+          headerRight: navData => (
+            renderFavouritesButton(navData)
           ),
         }
       },
