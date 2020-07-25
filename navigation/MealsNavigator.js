@@ -1,4 +1,5 @@
 import React from 'react';
+import {Text, Platform} from "react-native";
 import {createAppContainer} from "react-navigation";
 import {createStackNavigator} from "react-navigation-stack";
 import {createBottomTabNavigator} from "react-navigation-tabs";
@@ -10,7 +11,6 @@ import MealDetailsScreen from "../screens/MealDetailsScreen/MealDetailsScreen";
 import FavouritesScreen from "../screens/FavouritesScreen/FavouritesScreen";
 import FiltersScreen from "../screens/FiltersScreen/FiltersScreen";
 import Colors from "../theme/Colors";
-import {Platform} from "react-native";
 import {CATEGORIES, MEALS} from "../data/dummy-data";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
 import CustomHeaderButton from "../components/HeaderButton/HeaderButton";
@@ -21,6 +21,14 @@ const stackNavConfig =   {
     headerTitle: 'Meals App',
     headerStyle: {
       backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : '',
+    },
+    headerTitleStyle: {
+      // Styles for the standard title
+      fontFamily: 'OpenSansBold',
+    },
+    headerBackTitleStyle: {
+      // Styles for the Back title
+      fontFamily: 'OpenSans',
     },
     headerTintColor: Platform.OS === 'android' ? Colors.white : Colors.primaryColor,
     headerTitleAlign: Platform.OS === 'android' ? 'center' : '',
@@ -151,17 +159,20 @@ const tabsScreenConfig = {
       },
       // Specific to Android createMaterialBottomTabNavigator when shifting set to true
       tabBarColor: Colors.primaryColor,
+      // Android specific - workaround for setting font styles on tab labels
+      tabBarLabel: Platform.OS === 'android' ? <Text style={{fontFamily: 'OpenSansBold'}}>Favourites</Text> : 'Meals',
     },
   },
   Favourites: {
     screen: FavNavigator,
     navigationOptions: {
-      tabBarLabel: 'Favourites!',
       tabBarIcon: tabInfo => {
         return <Ionicons name='ios-star' size={25} color={tabInfo.tintColor}/>
       },
       // Specific to Android createMaterialBottomTabNavigator when shifting set to true
       tabBarColor: Colors.accentColor,
+      // Android specific - workaround for setting font styles on tab labels
+      tabBarLabel: Platform.OS === 'android' ? <Text style={{fontFamily: 'OpenSansBold'}}>Favourites</Text> : 'Favourites',
     },
   },
 };
@@ -183,6 +194,9 @@ const MealsTabNavigator = Platform.OS === 'android' ? (
     tabsScreenConfig,
     {
       tabBarOptions: {
+        labelStyle: {
+          fontFamily: 'OpenSansBold',
+        },
         activeTintColor: Colors.accentColor,
       },
     }
@@ -202,11 +216,11 @@ const MainNavigator = createDrawerNavigator(
     },
   },
   {
-    drawerBackgroundColor: Colors.primaryColor,
+    drawerBackgroundColor: Platform.OS === 'android' ? Colors.primaryColor : '',
     contentOptions: {
-      inactiveTintColor: Colors.white,
-      activeTintColor: Colors.white,
-      activeBackgroundColor: Colors.accentColor,
+      inactiveTintColor: Platform.OS === 'android' ? Colors.white : '',
+      activeTintColor: Platform.OS === 'android' ? Colors.white : Colors.accentColor,
+      activeBackgroundColor: Platform.OS === 'android' ? Colors.accentColor : '',
       labelStyle: {
         fontFamily: 'OpenSansBold',
       },
