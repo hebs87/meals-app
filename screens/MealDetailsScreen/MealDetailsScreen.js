@@ -1,30 +1,66 @@
 import React from 'react';
-import {StyleSheet, View, Text, Button} from 'react-native';
+import {StyleSheet, ScrollView, View, Text, Image} from 'react-native';
 import {MEALS} from "../../data/dummy-data";
+import DefaultText from "../../components/DefaultText/DefaultText";
+import Colors from '../../theme/Colors';
 
 const MealDetailsScreen = props => {
   const mealId = props.navigation.getParam('mealId');
 
   const selectedMeal = MEALS.find(meal => meal.id === mealId);
 
+  const renderListItem = data => {
+    return (
+      data.map(value => (
+        <View key={value} style={styles.listItem}>
+          <DefaultText>{value}</DefaultText>
+        </View>
+      ))
+    );
+  };
+
   return (
-    <View style={styles.screen}>
-      <Text>Meal Details Screen!</Text>
-      <Text>{selectedMeal.title}</Text>
-      <Button
-        title='Back to Categories!'
-        onPress={() => props.navigation.popToTop()}
-      />
-    </View>
+    <ScrollView>
+      <Image style={styles.image} source={{uri: selectedMeal.imageUrl}}/>
+      <View style={styles.mealDetails}>
+        <DefaultText>{selectedMeal.duration}m</DefaultText>
+        <DefaultText>{selectedMeal.complexity.toUpperCase()}</DefaultText>
+        <DefaultText>{selectedMeal.affordability.toUpperCase()}</DefaultText>
+      </View>
+      <Text style={styles.title}>Ingredients</Text>
+      {
+        renderListItem(selectedMeal.ingredients)
+      }
+      <Text style={styles.title}>Steps</Text>
+      {
+        renderListItem(selectedMeal.steps)
+      }
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
+  image: {
+    width: '100%',
+    height: 200,
+  },
+  mealDetails: {
+    flexDirection: 'row',
+    padding: 15,
+    justifyContent: 'space-around',
+  },
+  title: {
+    fontFamily: 'OpenSansBold',
+    fontSize: 22,
+    textAlign: 'center',
+  },
+  listItem: {
+    marginVertical: 10,
+    marginHorizontal: 20,
+    borderColor: Colors.grey,
+    borderWidth: 1,
+    padding: 10,
+  },
 });
 
 export default MealDetailsScreen;
