@@ -27,6 +27,18 @@ const stackNavConfig =   {
   },
 };
 
+const renderMenuButton = navData => (
+  <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+    <Item
+      title='Menu'
+      iconName='ios-menu'
+      onPress={() => {
+        navData.navigation.toggleDrawer();
+      }}
+    />
+  </HeaderButtons>
+);
+
 const MealsNavigator = createStackNavigator(
   {
     Categories: {
@@ -36,15 +48,7 @@ const MealsNavigator = createStackNavigator(
           headerTitle: 'Meal Categories',
           // For navigation drawer
           headerLeft: () => (
-            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-              <Item
-                title='Menu'
-                iconName='ios-menu'
-                onPress={() => {
-                  navData.navigation.toggleDrawer();
-                }}
-              />
-            </HeaderButtons>
+            renderMenuButton(navData)
           ),
         }
       },
@@ -93,15 +97,7 @@ const FavNavigator = createStackNavigator(
           headerTitle: 'Your Favourites',
           // For navigation drawer
           headerLeft: () => (
-            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-              <Item
-                title='Menu'
-                iconName='ios-menu'
-                onPress={() => {
-                  navData.navigation.toggleDrawer();
-                }}
-              />
-            </HeaderButtons>
+            renderMenuButton(navData)
           ),
         }
       },
@@ -140,15 +136,7 @@ const FiltersNavigator = createStackNavigator(
           headerTitle: 'Filter Meals',
           // For navigation drawer
           headerLeft: () => (
-            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-              <Item
-                title='Menu'
-                iconName='ios-menu'
-                onPress={() => {
-                  navData.navigation.toggleDrawer();
-                }}
-              />
-            </HeaderButtons>
+            renderMenuButton(navData)
           ),
         }
       },
