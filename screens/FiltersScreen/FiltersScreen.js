@@ -1,6 +1,8 @@
 import React, {useState, useEffect, useCallback} from 'react';
+import {useDispatch} from "react-redux";
 import {StyleSheet, View, Text, Switch, Platform} from 'react-native';
 import Colors from "../../theme/Colors";
+import {setFilters} from "../../store/actions/meals.actions";
 
 const FilterSwitch = props => {
   const {label, value, onChange} = props;
@@ -26,6 +28,7 @@ const FiltersScreen = props => {
   const [isLactoseFree, setIsLactoseFree] = useState(false);
   const [isVegan, setIsVegan] = useState(false);
   const [isVegetarian, setIsVegetarian] = useState(false);
+  const dispatch = useDispatch();
 
   // To be passed into the header to enable getting the state on save
   const saveFilters = useCallback(() => {
@@ -36,8 +39,8 @@ const FiltersScreen = props => {
       vegetarian: isVegetarian,
     };
 
-    console.log(appliedFilters);
-  }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian]);
+    dispatch(setFilters(appliedFilters));
+  }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian, dispatch]);
 
   // Sets the params to enable the header to extract them
   useEffect(() => {
