@@ -47,14 +47,12 @@ const renderMenuButton = navData => (
   </HeaderButtons>
 );
 
-const renderFavouritesButton = navData => (
+const renderFavouritesButton = (navData, callbackFunc) => (
   <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
     <Item
       title='Favourite'
       iconName='ios-star'
-      onPress={() => {
-        console.log('Mark as favourite');
-      }}
+      onPress={callbackFunc}
     />
   </HeaderButtons>
 );
@@ -97,10 +95,11 @@ const MealsNavigator = createStackNavigator(
       screen: MealDetailsScreen,
       navigationOptions: navData => {
         const mealTitle = navData.navigation.getParam('mealTitle');
+        const toggleFavourite = navData.navigation.getParam('toggleFav');
         return {
           headerTitle: mealTitle,
           headerRight: navData => (
-            renderFavouritesButton(navData)
+            renderFavouritesButton(navData, toggleFavourite)
           ),
         }
       },
@@ -126,12 +125,12 @@ const FavNavigator = createStackNavigator(
     MealDetails: {
       screen: MealDetailsScreen,
       navigationOptions: navData => {
-        const mealId = navData.navigation.getParam('mealId');
-        const selectedMeal = MEALS.find(meal => meal.id === mealId);
+        const mealTitle = navData.navigation.getParam('mealTitle');
+        const toggleFavourite = navData.navigation.getParam('toggleFav');
         return {
-          headerTitle: selectedMeal.title,
+          headerTitle: mealTitle,
           headerRight: navData => (
-            renderFavouritesButton(navData)
+            renderFavouritesButton(navData, toggleFavourite)
           ),
         }
       },

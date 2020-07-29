@@ -1,13 +1,24 @@
-import React from 'react';
-import {useSelector} from "react-redux";
+import React, {useEffect, useCallback} from 'react';
+import {useSelector, useDispatch} from "react-redux";
 import {StyleSheet, ScrollView, View, Text, Image} from 'react-native';
 import DefaultText from "../../components/DefaultText/DefaultText";
 import Colors from '../../theme/Colors';
+import {toggleFavourite} from "../../store/actions/meals.actions";
 
 const MealDetailsScreen = props => {
   const availableMeals = useSelector(state => state.meals.meals);
   const mealId = props.navigation.getParam('mealId');
   const selectedMeal = availableMeals.find(meal => meal.id === mealId);
+
+  // Dispatch the meal id to the reducer to enable adding/removing favourite meals
+  const dispatch = useDispatch();
+  const handleToggleFavourite = useCallback(() => {
+    dispatch(toggleFavourite(mealId));
+  }, [dispatch, mealId]);
+
+  useEffect(() => {
+    props.navigation.setParams({toggleFav: handleToggleFavourite});
+  }, [handleToggleFavourite]);
 
   const renderListItem = data => {
     return (
