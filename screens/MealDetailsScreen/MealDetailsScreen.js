@@ -1,13 +1,13 @@
 import React from 'react';
+import {useSelector} from "react-redux";
 import {StyleSheet, ScrollView, View, Text, Image} from 'react-native';
-import {MEALS} from "../../data/dummy-data";
 import DefaultText from "../../components/DefaultText/DefaultText";
 import Colors from '../../theme/Colors';
 
 const MealDetailsScreen = props => {
+  const availableMeals = useSelector(state => state.meals.meals);
   const mealId = props.navigation.getParam('mealId');
-
-  const selectedMeal = MEALS.find(meal => meal.id === mealId);
+  const selectedMeal = availableMeals.find(meal => meal.id === mealId);
 
   const renderListItem = data => {
     return (
