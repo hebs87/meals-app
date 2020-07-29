@@ -96,10 +96,9 @@ const MealsNavigator = createStackNavigator(
     MealDetails: {
       screen: MealDetailsScreen,
       navigationOptions: navData => {
-        const mealId = navData.navigation.getParam('mealId');
-        const selectedMeal = MEALS.find(meal => meal.id === mealId);
+        const mealTitle = navData.navigation.getParam('mealTitle');
         return {
-          headerTitle: selectedMeal.title,
+          headerTitle: mealTitle,
           headerRight: navData => (
             renderFavouritesButton(navData)
           ),

@@ -17,6 +17,7 @@ const MealsList = props => {
           'MealDetails',
           {
             mealId: itemData.item.id,
+            mealTitle: itemData.item.title,
           }
         )}
       />
