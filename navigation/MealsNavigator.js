@@ -59,6 +59,16 @@ const renderFavouritesButton = navData => (
   </HeaderButtons>
 );
 
+const renderSaveButton = (navData, callbackFunc) => (
+  <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+    <Item
+      title='Save'
+      iconName='ios-save'
+      onPress={callbackFunc}
+    />
+  </HeaderButtons>
+);
+
 const MealsNavigator = createStackNavigator(
   {
     Categories: {
@@ -141,6 +151,9 @@ const FiltersNavigator = createStackNavigator(
           // For navigation drawer
           headerLeft: () => (
             renderMenuButton(navData)
+          ),
+          headerRight: () => (
+            renderSaveButton(navData, navData.navigation.getParam('save'))
           ),
         }
       },

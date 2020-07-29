@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {StyleSheet, View, Text, Switch, Platform} from 'react-native';
 import Colors from "../../theme/Colors";
 
@@ -26,6 +26,23 @@ const FiltersScreen = props => {
   const [isLactoseFree, setIsLactoseFree] = useState(false);
   const [isVegan, setIsVegan] = useState(false);
   const [isVegetarian, setIsVegetarian] = useState(false);
+
+  // To be passed into the header to enable getting the state on save
+  const saveFilters = useCallback(() => {
+    const appliedFilters = {
+      glutenFree: isGlutenFree,
+      lactoseFree: isLactoseFree,
+      vegan: isVegan,
+      vegetarian: isVegetarian,
+    };
+
+    console.log(appliedFilters);
+  }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian]);
+
+  // Sets the params to enable the header to extract them
+  useEffect(() => {
+    props.navigation.setParams({save: saveFilters});
+  }, [saveFilters]);
 
   return (
     <View style={styles.screen}>
