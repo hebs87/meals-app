@@ -47,11 +47,11 @@ const renderMenuButton = navData => (
   </HeaderButtons>
 );
 
-const renderFavouritesButton = (navData, callbackFunc) => (
+const renderFavouritesButton = (navData, callbackFunc, isFavourite) => (
   <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
     <Item
       title='Favourite'
-      iconName='ios-star'
+      iconName={isFavourite ? 'ios-star' : 'ios-star-outline'}
       onPress={callbackFunc}
     />
   </HeaderButtons>
@@ -96,10 +96,11 @@ const MealsNavigator = createStackNavigator(
       navigationOptions: navData => {
         const mealTitle = navData.navigation.getParam('mealTitle');
         const toggleFavourite = navData.navigation.getParam('toggleFav');
+        const isFavourite = navData.navigation.getParam('isFavourite');
         return {
           headerTitle: mealTitle,
           headerRight: navData => (
-            renderFavouritesButton(navData, toggleFavourite)
+            renderFavouritesButton(navData, toggleFavourite, isFavourite)
           ),
         }
       },
@@ -127,10 +128,11 @@ const FavNavigator = createStackNavigator(
       navigationOptions: navData => {
         const mealTitle = navData.navigation.getParam('mealTitle');
         const toggleFavourite = navData.navigation.getParam('toggleFav');
+        const isFavourite = navData.navigation.getParam('isFavourite');
         return {
           headerTitle: mealTitle,
           headerRight: navData => (
-            renderFavouritesButton(navData, toggleFavourite)
+            renderFavouritesButton(navData, toggleFavourite, isFavourite)
           ),
         }
       },

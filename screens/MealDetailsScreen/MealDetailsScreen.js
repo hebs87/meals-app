@@ -6,8 +6,11 @@ import Colors from '../../theme/Colors';
 import {toggleFavourite} from "../../store/actions/meals.actions";
 
 const MealDetailsScreen = props => {
-  const availableMeals = useSelector(state => state.meals.meals);
   const mealId = props.navigation.getParam('mealId');
+  const availableMeals = useSelector(state => state.meals.meals);
+  const isFavourite = useSelector(
+    state => state.meals.favouriteMeals.some(meal => meal.id === mealId)
+  );
   const selectedMeal = availableMeals.find(meal => meal.id === mealId);
 
   // Dispatch the meal id to the reducer to enable adding/removing favourite meals
@@ -19,6 +22,10 @@ const MealDetailsScreen = props => {
   useEffect(() => {
     props.navigation.setParams({toggleFav: handleToggleFavourite});
   }, [handleToggleFavourite]);
+
+  useEffect(() => {
+    props.navigation.setParams({isFavourite});
+  }, [isFavourite]);
 
   const renderListItem = data => {
     return (
